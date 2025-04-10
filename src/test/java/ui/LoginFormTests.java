@@ -16,6 +16,7 @@ public class LoginFormTests {
     WebDriver driver;
     Actions actions;
     TestConfig config = new TestConfig();
+    String baseUrl = config.getBaseUrl();
 
     @BeforeEach
     void setup() {
@@ -31,15 +32,15 @@ public class LoginFormTests {
 
     @Test
     void openHomePageTest() {
-        driver.get(config.getBaseUrl());
+        driver.get(baseUrl);
 
-        assertEquals(config.getBaseUrl(), driver.getCurrentUrl());
+        assertEquals(baseUrl, driver.getCurrentUrl());
         assertEquals("Hands-On Selenium WebDriver with Java", driver.getTitle());
     }
 
     @Test
     void openLoginPageTest() {
-        driver.get(config.getBaseUrl());
+        driver.get(baseUrl);
 
         WebElement loginPage = driver.findElement(By.xpath("//a[@href = 'login-form.html']"));
         actions.moveToElement(loginPage).perform();
@@ -47,7 +48,7 @@ public class LoginFormTests {
 
         WebElement title = driver.findElement(By.className("display-6"));
 
-        assertEquals(config.getBaseUrl() + "login-form.html", driver.getCurrentUrl());
+        assertEquals(baseUrl + "login-form.html", driver.getCurrentUrl());
         assertEquals("Login form", title.getText());
     }
 }
