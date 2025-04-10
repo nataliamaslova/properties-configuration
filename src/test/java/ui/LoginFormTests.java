@@ -1,3 +1,6 @@
+package ui;
+
+import configs.TestConfig;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class LoginFormTests {
     WebDriver driver;
     Actions actions;
-    private static final String BASE_URL = "https://bonigarcia.dev/selenium-webdriver-java/";
+    TestConfig config = new TestConfig();
 
     @BeforeEach
     void setup() {
@@ -28,15 +31,15 @@ public class LoginFormTests {
 
     @Test
     void openHomePageTest() {
-        driver.get(BASE_URL);
+        driver.get(config.getBaseUrl());
 
-        assertEquals(BASE_URL, driver.getCurrentUrl());
+        assertEquals(config.getBaseUrl(), driver.getCurrentUrl());
         assertEquals("Hands-On Selenium WebDriver with Java", driver.getTitle());
     }
 
     @Test
     void openLoginPageTest() {
-        driver.get(BASE_URL);
+        driver.get(config.getBaseUrl());
 
         WebElement loginPage = driver.findElement(By.xpath("//a[@href = 'login-form.html']"));
         actions.moveToElement(loginPage).perform();
@@ -44,7 +47,7 @@ public class LoginFormTests {
 
         WebElement title = driver.findElement(By.className("display-6"));
 
-        assertEquals(BASE_URL + "login-form.html", driver.getCurrentUrl());
+        assertEquals(config.getBaseUrl() + "login-form.html", driver.getCurrentUrl());
         assertEquals("Login form", title.getText());
     }
 }
