@@ -10,6 +10,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 
+import java.time.Duration;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LoginFormTests {
@@ -22,6 +24,7 @@ public class LoginFormTests {
     void setup() {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         actions = new Actions(driver);
     }
 
@@ -41,7 +44,6 @@ public class LoginFormTests {
     @Test
     void openLoginPageTest() {
         driver.get(baseUrl);
-
         WebElement loginPage = driver.findElement(By.xpath("//a[@href = 'login-form.html']"));
         actions.moveToElement(loginPage).perform();
         loginPage.click();
@@ -50,5 +52,20 @@ public class LoginFormTests {
 
         assertEquals(baseUrl + "login-form.html", driver.getCurrentUrl());
         assertEquals("Login form", title.getText());
+    }
+
+    @Test
+    void signInTest() {
+        driver.get(baseUrl);
+        WebElement loginPage = driver.findElement(By.xpath("//a[@href = 'login-form.html']"));
+        actions.moveToElement(loginPage).perform();
+        loginPage.click();
+
+        driver.findElement(By.id("username")).sendKeys(config.getUsername());
+        driver.findElement(By.id("password")).sendKeys(config.getPassword());
+        driver.findElement(By.xpath("//button[@type = 'submit']")).click();
+        WebElement message = driver.findElement(By.className("alert"));
+
+        assertEquals("Login successful", message.getText());
     }
 }
