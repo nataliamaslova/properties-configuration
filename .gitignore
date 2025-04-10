@@ -37,3 +37,9 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Properties ###
+src/test/resources/*.properties
+
+# Исключение: разрешаем сохранять шаблон
+!src/test/resources/template.properties.properties
