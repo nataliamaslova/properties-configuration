@@ -1,6 +1,7 @@
 package ui;
 
-import configs.TestConfig;
+import configs.TestPropertiesConfig;
+import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,14 +18,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class LoginFormTests {
     WebDriver driver;
     Actions actions;
-    TestConfig config = new TestConfig();
+
+//    TestConfig config = new TestConfig();
+    TestPropertiesConfig config = ConfigFactory.create(TestPropertiesConfig.class, System.getProperties());
+
     String baseUrl = config.getBaseUrl();
 
     @BeforeEach
     void setup() {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(config.getTimeout()));
         actions = new Actions(driver);
     }
 
@@ -56,6 +60,13 @@ public class LoginFormTests {
 
     @Test
     void signInTest() {
+        if(config.isRemote()) {
+            System.out.println("Remote testing");
+        } else {
+            System.out.println("Local testing");
+        }
+        System.out.println("timeout = " + config.getTimeout());
+
         driver.get(baseUrl);
         WebElement loginPage = driver.findElement(By.xpath("//a[@href = 'login-form.html']"));
         actions.moveToElement(loginPage).perform();
